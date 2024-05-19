@@ -16,7 +16,7 @@ def process_queries(self):
 
     for i in self.query_order:
         query = i
-        print(query)                        
+        # print(query)                        
 
         if len(query) > 0:
 
@@ -31,59 +31,60 @@ def process_queries(self):
                 # Creating variables
                 if query_type in self.operator_list or query_type in self.boolean_list:
                     self.create_variable(query)
-                    print(self.variables)
+                    # print(self.variables)
 
                 elif query_type == "select":
-                    col_list, table_name, where, order_by = self.get_list_item(query, range(1, len(query)))
-                    
+                    col_list, table_name, where, order_by = self.get_list_item(query, range(1, len(query)))                    
                     if table_name in self.table:
 
                         if col_list:
-                            with open('index/index_dict.pkl', 'rb') as f:
-                                try:
-                                    index_table = pickle.load(f)
-                                except EOFError:
-                                    index_table = {}
-                            if where and where in self.variables:
-                                col, cond, val = self.cols_where(where)
-                                print(col, "column")
-                                print(index_table)
-                                if col:
-                                # find column in where  
-                                    for k, v in index_table.items():
-                                        if v == ([col], table_name):
-                                            tree = build_index(k)
-                                            df, table, all_cols_flag = {}, self.table[table_name], False
-                                            print("GOT INDEX")
-                                    # now search in index rn
-                                            if cond == "==":
-                                                result = pickle.loads(tree[int(val)])
-                                                print(result)
+                            
+                            # Indexing
+                            # with open('index/index_dict.pkl', 'rb') as f:
+                            #     try:
+                            #         index_table = pickle.load(f)
+                            #     except EOFError:
+                            #         index_table = {}
+                            # if where and where in self.variables:
+                            #     col, cond, val = self.cols_where(where)
+                            #     print(col, "column")
+                            #     print(index_table)
+                            #     if col:
+                            #     # find column in where  
+                            #         for k, v in index_table.items():
+                            #             if v == ([col], table_name):
+                            #                 tree = build_index(k)
+                            #                 df, table, all_cols_flag = {}, self.table[table_name], False
+                            #                 print("GOT INDEX")
+                            #         # now search in index rn
+                            #                 if cond == "==":
+                            #                     result = pickle.loads(tree[int(val)])
+                            #                     print(result)
+                            #     else:
+                            df, table, all_cols_flag = {}, self.table[table_name], False                                
+                            
+                            for i in col_list:
+                                if i == "*":
+                                    df = table
+                                    all_cols_flag = True
+                                    flag = True
+                                    break
                                 else:
-                                    df, table, all_cols_flag = {}, self.table[table_name], False                                
-                                    
-                                    for i in col_list:
-                                        if i == "*":
-                                            df = table
-                                            all_cols_flag = True
-                                            flag = True
-                                            break
-                                        else:
-                                            # Add only certain columns
-                                            df[i] = table.loc[:, i]
-                                    # df formation
-                                    if all_cols_flag == False:
-                                        df = pd.DataFrame(df)
+                                    # Add only certain columns
+                                    df[i] = table.loc[:, i]
+                            # df formation
+                            if all_cols_flag == False:
+                                df = pd.DataFrame(df)
 
-                                    if where and where in self.variables:                               
-                                        df = df.query(self.variables[where])
+                            if where and where in self.variables:                               
+                                df = df.query(self.variables[where])
 
-                                    if order_by:
-                                        order_col, order_type = order_by                                
-                                        order = True if order_type == 'ASC' else False                                
-                                        df = df.sort_values(by = order_col, ascending = order)
+                            if order_by:
+                                order_col, order_type = order_by                                
+                                order = True if order_type == 'ASC' else False                                
+                                df = df.sort_values(by = order_col, ascending = order)
 
-                                print(df)
+                            print(df)
 
                 elif query_type == "delete":
                     where, table_name = self.get_list_item(query, range(1, len(query)))
@@ -114,11 +115,11 @@ def process_queries(self):
                             index_table = {}
 
                     index_table[index_name] = (cols, table_name)
-                    #print(index_table, "INDEX TABLE")
+                    # print(index_table, "INDEX TABLE")
                     with open("index/index_dict.pkl", 'wb') as f:
                         pickle.dump(index_table, f)
                     
-                    print(cols, table_name)
+                    # print(cols, table_name)
                     all_cols_flag = False
                     if '*' in cols:
                         all_cols_flag = True

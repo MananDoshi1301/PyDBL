@@ -49,7 +49,7 @@ class NonPersistence():
             self.active_keys[key] = value
             # Set new value to assembly too
             self.append_assembly('hset', register, value)
-            print(key, '=', value)
+            # print(key, '=', value)
             self.vector_clock += 1
 
             
@@ -65,7 +65,7 @@ class NonPersistence():
                 
                 # Set new value to assembly too                
                 self.append_assembly('hset', register, value)
-                print(key, '=', value)
+                # print(key, '=', value)
                 self.vector_clock += 1
                 
             # else: substitute with least recently used value             
@@ -77,7 +77,7 @@ class NonPersistence():
                 self.lru.pop(min_key)
                 self.set_key(key, value)
 
-        print("##LRU: ", self.lru, '\n')
+        # print("##LRU: ", self.lru, '\n')
         # print("##Register_map: ", self.register_map)
         # print("##Active Keys", self.active_keys, "\n")        
 
@@ -99,8 +99,8 @@ class NonPersistence():
                 value = self.active_keys[key]
                 self.set_key(key, value)
             
-            print(key, ":", self.active_keys[key])        
-            print("##LRU: ", self.lru, '\n')
+            # print(key, ":", self.active_keys[key])        
+            # print("##LRU: ", self.lru, '\n')
 
     def process_queries(self):  
 

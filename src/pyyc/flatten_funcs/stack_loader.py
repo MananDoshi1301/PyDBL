@@ -39,4 +39,4 @@ def stack_loader(self, node):
 
     else:
         self.stack.push(name_type)
-    self.stack.iterate()
+    # self.stack.iterate()

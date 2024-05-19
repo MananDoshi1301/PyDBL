@@ -36,7 +36,7 @@ class PostfixVisitor(ast.NodeVisitor):
         # print(self.variables)        
         # print(self.order_dict_list)
         for i in self.order_dict_list:
-            print(i)
+            # print(i)
             ...
         ...
 
@@ -48,10 +48,10 @@ class PostfixVisitor(ast.NodeVisitor):
 
     def visit(self, node):          
         name_type = type(node).__name__
-        print(name_type)
+        # print(name_type)
         try:
             if (node.value == 0 or node.value) and isinstance(node.value, (str, int)):                  
-                print("type:", type(node.value), node.value)              
+                # print("type:", type(node.value), node.value)              
 
                 self.stack.push(node.value)                
         except:

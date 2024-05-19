@@ -118,7 +118,7 @@ class Assembler:
         for idx, inst in enumerate(self.IR):
             if inst[0] == "delete" and inst[1] == "":
                 tbl_del_id[inst[2]] = idx
-            print(inst)
+            # print(inst)
             if inst[0] in ["select", 'update', 'delete', 'index', 'view'] and inst[2] in tbl_del_id and tbl_del_id[inst[2]] < idx:
                 inst_rm.append(idx)
             if inst[0] == "create_table" and inst[1] in tbl_del_id:
@@ -382,29 +382,29 @@ if __name__ == "__main__":
     flat_code = flat_code2  
     assm = Assembler(flat_code)
     assm.IR_generation()
-    for i, inst in enumerate(assm.IR):
-        print(i, inst)
+    # for i, inst in enumerate(assm.IR):
+    #     print(i, inst)
 
-    print("\n")
+    # print("\n")
     assm._lvn()
-    print("\n\nAFTER LVN OPTIMIZATION")
-    for i, inst in enumerate(assm.IR):
-        print(i, inst)
+    # print("\n\nAFTER LVN OPTIMIZATION")
+    # for i, inst in enumerate(assm.IR):
+    #     print(i, inst)
     
-    print(assm.duplicates)
+    # print(assm.duplicates)
 
 
     view_to_IR = assm.optimize_batch_processing()
-    print("\n\nAFTER BATCH OPTIMIZATION")
-    for k, vs in view_to_IR.items():
-        for v in vs:
-            print(assm.IR[k], "services", assm.IR_view[v])
+    # print("\n\nAFTER BATCH OPTIMIZATION")
+    # for k, vs in view_to_IR.items():
+    #     for v in vs:
+    #         print(assm.IR[k], "services", assm.IR_view[v])
 
-    print("\n\n")
-    for i, inst in enumerate(assm.IR):
-        print(i, inst)
+    # print("\n\n")
+    # for i, inst in enumerate(assm.IR):
+    #     print(i, inst)
 
-    print("\n\nMinimum Performance Improvements by Optimization (Higher Gains when data is larger, as more disk calls will be avoided):")
+    # print("\n\nMinimum Performance Improvements by Optimization (Higher Gains when data is larger, as more disk calls will be avoided):")
     cost = assm.calc_cost()
-    for item in cost:
-        print(*item)
+    # for item in cost:
+    #     print(*item)

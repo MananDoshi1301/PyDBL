@@ -7,7 +7,8 @@ class NonPersistingAssembly():
         ...
 
     def __del__(self):
-        print("\n".join(self.assembly))
+        # print("\n".join(self.assembly))
+        ...
 
     def add_assembly(self, lst):
         self.assembly.append(lst)        

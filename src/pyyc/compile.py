@@ -1,6 +1,6 @@
 import ast
 from ast import *
-import os
+import os, sys
 sys.path.insert(0, f'{os.getcwd()}/src/pyyc/flatten_funcs')
 sys.path.insert(0, f'{os.getcwd()}/src/pyyc/persistence_funcs')
 sys.path.insert(0, f'{os.getcwd()}/src/pyyc/non_persistence_funcs')
@@ -15,7 +15,7 @@ from non_persisting_assembly import NonPersistingAssembly
 def ast_dev(expression):
     tree = ast.parse(expression)
     ast_tree = ast.dump(tree, indent = 4)
-    print(ast_tree)
+    # print(ast_tree)
 
 class Compile():
 
@@ -32,7 +32,7 @@ class Compile():
         postfix_visitor = PostfixVisitor()
         postfix_visitor.traverse(self.tree)
         self.query_order = postfix_visitor.get_query_order()
-        # print(query_order)
+        # print(self.query_order)
         # print(postfix_visitor.get_vars())
 
     def optimization(self):
@@ -71,18 +71,19 @@ if __name__ == "__main__":
 
 ############################################### IMPORT
 
-import_table(url="zillow_db", table_name="zillow")
+# import_table(url="data/zillow.csv", table_name="zillow")
+import_table(url="database/zillow_db", table_name="zillow")
 
 
 ############################################### SELECT
-# select(['*'], table="zillow")
+select(['*'], table="zillow")
 # select(['Zip'], table="zillow")
 # select(['Beds', "Baths"], table="zillow", orderBy=('Beds', 'DESC'))
 
 # cond1 = {">" : ("Beds", 3)}
 # cond2 = {">" : ("Baths", 3)}
 # cond3 = {"or" : (cond1, cond2)}
-cond4 = {"==": ("Index", 3)}
+# cond4 = {"==": ("Index", 3)}
 # select(['Beds', "Baths"], table="zillow", where = (cond3), orderBy=('Beds', 'DESC'))
 
 # select(['col1', 'col2'], table="zillow")
@@ -102,22 +103,22 @@ cond4 = {"==": ("Index", 3)}
 # delete(table="zillow")
 
 ############################################### INDEX
-index(['Index'], index_name="short_customer", table="zillow")
-select(['Beds', "Baths"], table="zillow", where = (cond4))
+# index(['Index'], index_name="short_customer", table="zillow")
+# select(['Beds', "Baths"], table="zillow", where = (cond4))
 # index(['*'], index_name="short_customer", table="zillow")
 
 ############################################### hset
-hset('a', 1)
-hset('b', 2)
-hset('c', 3)
-hset('d', 4)
-hget('b')
-hset('e', 5)
-hget('c')
-hset('f', 6)
-hget('d')
-hset('g', 7)
-hget('e')
+# hset('a', 1)
+# hset('b', 2)
+# hset('c', 3)
+# hset('d', 4)
+# hget('b')
+# hset('e', 5)
+# hget('c')
+# hset('f', 6)
+# hget('d')
+# hset('g', 7)
+# hget('e')
 """
     
     ast_dev(code)      

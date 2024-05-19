@@ -32,7 +32,7 @@ def save_table(self, df, name = ""):
     try:
         df.to_csv(name+"_db")
     except:
-        print("Something Failed!")
+        print("Internal Server Error. File not Saved :(")
 
 def post_query_order(self, query_order = ""):
     self.query_order = query_order

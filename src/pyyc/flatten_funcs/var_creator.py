@@ -14,7 +14,7 @@ def var_creator(self, cmd, node = None):
         elif parameter == "set":
             # self.stack.iterate()
             set_variable, set_type = self.pull_consts(2)
-            print("-----------", self.stack.iterate())
+            # print("-----------", self.stack.iterate())
             # print(set_type, set_variable)
             temp = set_variable
             while temp in self.variables:
@@ -150,7 +150,7 @@ def var_creator(self, cmd, node = None):
                 # self.push_consts(['Load', new_var_name])
                 self.push_consts(['Load', string])
             elif operator in self.set_conditional_operator:
-                print("##################", a, operator, b)
+                # print("##################", a, operator, b)
                 string = f"{a} {operator} {b}"
                 self.push_consts(['Load', string])
     
