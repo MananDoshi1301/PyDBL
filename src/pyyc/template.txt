@@ -1,0 +1,64 @@
+# numbers and hashes
+hset("var", 3)
+hget("", "")
+
+## CONDITIONS
+## Constants: Both 
+## Constants: ==, !=, >, <, >=, <=
+## position (0,1) == 0: column name, 1: value
+condition1 = {"==": ("last_name", "Smith")} 
+condition2 = {"!=": ("first_name", "Alfred")}
+
+## NameNode: and or
+## NameNode: Both
+condition = {"and": (condition1, condition2)}
+
+## SELECT
+## column list and table_name mandatory
+## Optionals: where, orderBy, view
+select(['*'], table="CUSTOMERS", where=condition, orderBy=(col_name, ASC | DESC), view = "short_customers")
+
+## UPDATE
+## position (0,1) == 0: column name, 1: value
+set_cond = {"==": ("city", "Germany")}
+update(set = (set_cond), table="CUSTOMERS")
+update(set = (set_cond), table="CUSTOMERS", where=(set_cond))
+
+## DELETE
+del_cond = {"==": ("customerName", "Alfred")}
+delete(table="CUSTOMER", where=(del_cond))
+
+## IMPORT
+Optionals: header = True
+import(url="", table_name="", header="")
+
+## INDEX
+index(index_name="", table="", column=['*'])
+
+
+
+
+
+Assembler:
+
+
+CONDITION (<, >, <=, >=, ==, !=):
+condition_type!, column_name!, value!, var_name_assigned_to!
+
+CONDITION (and, or):
+condition_type!, conditon1!, condition2!, var_name_assigned_to!
+
+SELECT:
+select!, column_name!: list, table_name!: string, where: string, order_by: tuple 
+
+UPDATE:
+update!, set!: "string", table_name!: string
+
+DELETE:
+delete!, where: var_name | expression, table_name!: string
+
+IMPORT:
+create_table!, table_name!: string, location!: string
+
+INDEX:
+index!, column_name!: list, table_name!: string, index_name!: short_customer
